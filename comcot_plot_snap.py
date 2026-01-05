@@ -239,7 +239,8 @@ def plot_snapshot(
     m: Optional[np.ndarray],
     n: Optional[np.ndarray],
     layer: str,
-    suffix: str,
+    snap: int,
+    surface_prefix: str,
     cmap: str | ListedColormap,
     stride: int,
     output: Path,
@@ -291,7 +292,10 @@ def plot_snapshot(
     ax.set_aspect("equal", adjustable="box")
     ax.set_xlabel("x")
     ax.set_ylabel("y")
-    ax.set_title(f"Layer {layer} snapshot {suffix}")
+    hours, remainder = divmod(snap, 3600)
+    minutes, seconds = divmod(remainder, 60)
+    timestamp = f"{hours:02d}:{minutes:02d}:{seconds:02d}"
+    ax.set_title(f"Layer-{surface_prefix.upper()} {layer}, {timestamp} after eq")
     ax.set_axisbelow(False)
     
     # Add grid for better readability
@@ -380,7 +384,20 @@ def main() -> None:
         
         suffix = f"{snap:06d}"
         outfile = args.outdir / f"z_{args.layer}_{suffix}.png"
-        saved = plot_snapshot(x, y, bathy, z, m, n, args.layer, suffix, cmap, args.stride, outfile)
+        saved = plot_snapshot(
+            x,
+            y,
+            bathy,
+            z,
+            m,
+            n,
+            args.layer,
+            snap,
+            surface_prefix,
+            cmap,
+            args.stride,
+            outfile,
+        )
         
         if args.verbose:
             print(f"Saved to {outfile.name}")

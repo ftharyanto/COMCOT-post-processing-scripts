@@ -29,7 +29,7 @@ Usage Examples:
     python comcot_plot_snap.py 01 --all --arrows
 
     # 3. Plot all snapshots and create a video immediately
-    python comcot_plot_snap.py 01 --all --mp4 --output-dir ./results
+    python comcot_plot_snap.py 01 --surface-prefix h --all --mp4 --output-dir ./results
 
     # 4. Generate a video ONLY from existing images in a folder
     python comcot_plot_snap.py 01 --video-only --img-dir ./plots --output-dir ./videos --fps 10
